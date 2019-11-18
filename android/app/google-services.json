@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "904232146358",
+    "firebase_url": "https://sosyalmedyaisilanlari.firebaseio.com",
+    "project_id": "sosyalmedyaisilanlari",
+    "storage_bucket": "sosyalmedyaisilanlari.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:904232146358:android:6f45028e89082cc179dd17",
+        "android_client_info": {
+          "package_name": "com.example.sosyalmedyaisilanlari"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "904232146358-1u2qp7vhdm6ljda1ook6ij8cq2vsagif.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBHSnJcWwksQdlsyyE6JtgmuCfvFBmXiiw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "904232146358-1u2qp7vhdm6ljda1ook6ij8cq2vsagif.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
