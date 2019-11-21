@@ -45,17 +45,16 @@ class _LoginPageState extends State<LoginPage> {
 
         if (myAuthResult.user != null) {
           setState(() => _loading = false);
-          Navigator.push(
+          Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (context) => MainPage()),
           );
         }
       } catch (error) {
-        if (error.code == "ERROR_EMAIL_ALREADY_IN_USE") {
-          setState(() => _errorMessage = "Bu email kullanılıyor!");
+        if (error.code == "") {
+          setState(() => _errorMessage = "");
         } else {
-          setState(
-              () => _errorMessage = "Kullanıcı adı veya şifreyi hatalı!");
+          setState(() => _errorMessage = "Kullanıcı adı veya şifreyi hatalı!");
         }
       }
     }
@@ -76,51 +75,51 @@ class _LoginPageState extends State<LoginPage> {
             ? new Center(child: CircularProgressIndicator())
             : new Form(
                 key: formKey,
-                child: new SingleChildScrollView( 
-                  child : new Column(
-                  children: <Widget>[
-                    new TextFormField(
-                      onChanged: (text) {
-                        validateAndSave();
-                      },
-                      decoration: new InputDecoration(labelText: 'Email'),
-                      validator: (value) =>
-                          value.isEmpty ? 'Email boş geçilemez.' : null,
-                      onSaved: (value) => _email = value,
-                    ),
-                    new TextFormField(
-                      onChanged: (text) {
-                        validateAndSave();
-                      },
-                      decoration: new InputDecoration(labelText: 'Password'),
-                      obscureText: true,
-                      validator: (value) =>
-                          value.isEmpty ? 'Şifre boş geçilemez.' : null,
-                      onSaved: (value) => _password = value,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Text(
-                        _errorMessage,
-                        style: TextStyle(color: Colors.red),
+                child: new SingleChildScrollView(
+                  child: new Column(
+                    children: <Widget>[
+                      new TextFormField(
+                        onChanged: (text) {
+                          validateAndSave();
+                        },
+                        decoration: new InputDecoration(labelText: 'Email'),
+                        validator: (value) =>
+                            value.isEmpty ? 'Email boş geçilemez.' : null,
+                        onSaved: (value) => _email = value,
                       ),
-                    ),
-                    new RaisedButton(
-                      child: Text('Giriş Yap'),
-                      onPressed: validateAndSubmit,
-                    ),
-                    new FlatButton(
-                      child: Text('Kayıt Ol'),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => SignPage()),
-                        );
-                      },
-                    )
-                  ],
-                ),)
-              ),
+                      new TextFormField(
+                        onChanged: (text) {
+                          validateAndSave();
+                        },
+                        decoration: new InputDecoration(labelText: 'Password'),
+                        obscureText: true,
+                        validator: (value) =>
+                            value.isEmpty ? 'Şifre boş geçilemez.' : null,
+                        onSaved: (value) => _password = value,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text(
+                          _errorMessage,
+                          style: TextStyle(color: Colors.red),
+                        ),
+                      ),
+                      new RaisedButton(
+                        child: Text('Giriş Yap'),
+                        onPressed: validateAndSubmit,
+                      ),
+                      new FlatButton(
+                        child: Text('Kayıt Ol'),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => SignPage()),
+                          );
+                        },
+                      )
+                    ],
+                  ),
+                )),
       ),
     );
   }

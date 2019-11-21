@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sosyalmedyaisilanlari/main.dart';
+import 'package:sosyalmedyaisilanlari/ui/views/profile_page.dart';
 
 import 'HomeView.dart';
 import 'create_job.dart';
@@ -25,7 +26,9 @@ class _mainPageState extends State<MainPage> {
       return  new HomeView();
     } else if (_currentIndex == 1) {
       return  CreateJobPage();
-    } else if (_currentIndex == 2) {}
+    } else if (_currentIndex == 2) {
+      return ProfilePage();
+    }
   }
 
   @override

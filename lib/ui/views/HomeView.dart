@@ -42,11 +42,7 @@ class _HomeViewState extends State<HomeView> {
   }
 
   void gotoLoginPage() {
-    Navigator.of(context).pop(true);
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => LoginPage()),
-    );
+    Navigator.of(context).pop(true);  
   }
 
   Future<bool> _onWillPop() {
