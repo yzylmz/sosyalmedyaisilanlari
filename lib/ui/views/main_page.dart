@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:sosyalmedyaisilanlari/main.dart';
 import 'package:sosyalmedyaisilanlari/ui/views/profile_page.dart';
 
 import 'HomeView.dart';

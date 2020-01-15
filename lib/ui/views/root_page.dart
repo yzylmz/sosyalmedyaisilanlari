@@ -1,14 +1,9 @@
 import 'dart:async';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:sosyalmedyaisilanlari/main.dart';
 import 'package:sosyalmedyaisilanlari/ui/views/login_page.dart';
 import 'package:sosyalmedyaisilanlari/ui/views/main_page.dart';
-
-import 'HomeView.dart';
-import 'create_job.dart';
 import 'landing_page.dart';
 
 class RootPage extends StatefulWidget {

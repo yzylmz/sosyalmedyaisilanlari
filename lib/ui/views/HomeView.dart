@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:sosyalmedyaisilanlari/ui/views/create_job.dart';
-import 'package:sosyalmedyaisilanlari/ui/views/login_page.dart';
+
 
 class HomeView extends StatefulWidget {
   _HomeViewState createState() => _HomeViewState();

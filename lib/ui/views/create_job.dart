@@ -1,7 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:sosyalmedyaisilanlari/ui/views/HomeView.dart';
-import 'package:sosyalmedyaisilanlari/ui/views/login_page.dart';
 
 class CreateJobPage extends StatefulWidget {
   @override

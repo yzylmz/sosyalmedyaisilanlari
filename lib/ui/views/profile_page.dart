@@ -10,13 +10,12 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: new Scaffold(
+      child: Scaffold(
         appBar: AppBar(
           actions: <Widget>[
-            new IconButton(
-              icon: new Icon(Icons.exit_to_app),
-              
-              onPressed: logOut(),
+            IconButton(
+              icon: Icon(Icons.exit_to_app), 
+              onPressed: () {logOut();},
             ),
           ],
           backgroundColor: Colors.purple,
