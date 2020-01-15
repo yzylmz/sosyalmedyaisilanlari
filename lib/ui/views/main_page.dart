@@ -50,7 +50,8 @@ class _mainPageState extends State<MainPage> {
               title: Text('İlan Ekle'),
             ),
             new BottomNavigationBarItem(
-                icon: Icon(Icons.person), title: Text('Profil'))
+                icon: Icon(Icons.person), 
+                title: Text('Profil'))
           ],
         ),
       ),

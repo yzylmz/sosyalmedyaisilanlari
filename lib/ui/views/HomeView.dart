@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:sosyalmedyaisilanlari/ui/views/create_job.dart';
-
 
 class HomeView extends StatefulWidget {
   _HomeViewState createState() => _HomeViewState();
@@ -13,33 +11,6 @@ class _HomeViewState extends State<HomeView> {
   int _currentIndex = 0;
   Stream<QuerySnapshot> _jobStream =
       Firestore.instance.collection('job').orderBy('createdDate', descending: true).snapshots();
-
-  getJobs() {
-    databaseReference
-        .collection("ilanlar")
-        .getDocuments()
-        .then((QuerySnapshot snapshot) {
-      snapshot.documents.forEach((f) => print('${f.data}}'));
-    });
-  }
-
-  void onTabTapped(int index) {
-    setState(() {
-      _currentIndex = index;
-    });
-
-    if (index == 0) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => HomeView()),
-      );
-    } else if (index == 1) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => CreateJobPage()),
-      );
-    } else if (index == 2) {}
-  }
 
   void gotoLoginPage() {
     Navigator.of(context).pop(true);  
@@ -64,28 +35,7 @@ class _HomeViewState extends State<HomeView> {
           ),
         ) ??
         false;
-  }
-
-  Widget _buildList(BuildContext context, DocumentSnapshot document) {
-    return ListTile(
-      title: Text(document['title']),
-      subtitle: Text(document['body']),
-    );
-  }
-
-  // Future<void> refresh() {
-  //   refreshData();
-  //   return Future.value();
-  // }
-
-  // void initState() {
-  //   super.initState();
-  //   _jobStream = refreshData();
-  // }
-
-  refreshData() {
-    return Firestore.instance.collection('job').orderBy('createdDate', descending: true).snapshots();
-  }
+  } 
 
   @override
   Widget build(BuildContext context) {

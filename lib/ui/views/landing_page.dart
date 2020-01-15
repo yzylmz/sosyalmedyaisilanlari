@@ -6,7 +6,7 @@ class LandingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         child: new Scaffold(
-      body: Container(
+        body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
             image: AssetImage("assets/images/backi.jpg"),
