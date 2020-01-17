@@ -15,6 +15,7 @@ class _HomeViewState extends State<HomeView> {
   Stream<QuerySnapshot> _jobStream = Firestore.instance
       .collection('job')
       .orderBy('createdDate', descending: true)
+      .limit(5)
       .snapshots();
 
   getDocumentCount() {
