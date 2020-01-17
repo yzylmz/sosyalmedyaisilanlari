@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class CreateJobPage extends StatefulWidget {
@@ -10,8 +11,11 @@ class _CreateJobPageState extends State<CreateJobPage> {
   final formKey = new GlobalKey<FormState>();
   final databaseReference = Firestore.instance;
 
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+
   String _title;
   String _explanation;
+  String _senderuid;
   String _errorMessage = "";
   bool _loading = false;
 
@@ -22,6 +26,18 @@ class _CreateJobPageState extends State<CreateJobPage> {
       return true;
     }
     return false;
+  }
+
+  getCurrentUser() async {
+    var _user = await _firebaseAuth.currentUser();
+    _senderuid= _user.uid;
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getCurrentUser();
   }
 
   void _successfullyAddedAlert() {
@@ -35,7 +51,6 @@ class _CreateJobPageState extends State<CreateJobPage> {
                   child: Text('Tamam'),
                   onPressed: () {
                     Navigator.of(context).pop();
-                     
                   },
                 ),
               ],
@@ -52,7 +67,7 @@ class _CreateJobPageState extends State<CreateJobPage> {
                 FlatButton(
                   child: Text('Tamam'),
                   onPressed: () {
-                    Navigator.of(context).pop();                     
+                    Navigator.of(context).pop();
                   },
                 ),
               ],
@@ -63,9 +78,13 @@ class _CreateJobPageState extends State<CreateJobPage> {
     setState(() => _loading = true);
     if (validateAndSave()) {
       try {
-        await databaseReference
-            .collection("job")
-            .add({"title": _title, "explanation": _explanation, "createdDate": DateTime.now()});
+       
+        await databaseReference.collection("job").add({
+          "title": _title,
+          "explanation": _explanation,
+          "createdDate": DateTime.now(),
+          "senderuid": _senderuid
+        });
         _successfullyAddedAlert();
       } catch (error) {
         _errorAddedAlert();

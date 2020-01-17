@@ -8,19 +8,30 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   final databaseReference = Firestore.instance;
 
-  static int scrollCount = 10;
+  static int scrollCount = 5;
   bool progressState = false;
 
   ScrollController _scrollController = ScrollController();
-
   Stream<QuerySnapshot> _jobStream = Firestore.instance
       .collection('job')
       .orderBy('createdDate', descending: true)
-      .limit(scrollCount)
       .snapshots();
+
+  getDocumentCount() {
+    // Firestore.instance.collection('job').getDocuments().then((onValue) {
+    //   int _countDoc = onValue.documents.length;
+    //   _jobStream = Firestore.instance
+    //       .collection('job')
+    //       .orderBy('createdDate', descending: true)
+    //       .limit(_countDoc)
+    //       .snapshots();
+    // });
+  }
 
   void initState() {
     super.initState();
+
+    
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
@@ -37,19 +48,15 @@ class _HomeViewState extends State<HomeView> {
   }
 
   _loadMore() {
-    int countDoc = Firestore.instance.collection('job').toString().length;
-
-    if (scrollCount < countDoc) {
-      setState(() {
-        scrollCount += 10;
-        _jobStream = Firestore.instance
-            .collection('job')
-            .orderBy('createdDate', descending: true)
-            .limit(scrollCount)
-            .snapshots();
-        progressState = false;
-      });
-    }
+    // setState(() {
+    //   scrollCount += 1;
+    //   _jobStream = Firestore.instance
+    //       .collection('job')
+    //       .orderBy('createdDate', descending: true)
+    //       .limit(scrollCount)
+    //       .snapshots();
+    //   progressState = false;
+    // });
   }
 
   void gotoLoginPage() {
