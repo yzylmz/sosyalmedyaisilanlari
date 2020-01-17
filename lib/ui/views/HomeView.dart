@@ -8,7 +8,8 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   final databaseReference = Firestore.instance;
 
-  static int scrollCount = 5;
+  static int scrollCount = 10;
+  bool progressState = false;
 
   ScrollController _scrollController = ScrollController();
 
@@ -23,6 +24,7 @@ class _HomeViewState extends State<HomeView> {
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
+        progressState = true;
         _loadMore();
       }
     });
@@ -39,12 +41,13 @@ class _HomeViewState extends State<HomeView> {
 
     if (scrollCount < countDoc) {
       setState(() {
-        scrollCount += 1;
+        scrollCount += 10;
         _jobStream = Firestore.instance
             .collection('job')
             .orderBy('createdDate', descending: true)
             .limit(scrollCount)
             .snapshots();
+        progressState = false;
       });
     }
   }
@@ -93,6 +96,14 @@ class _HomeViewState extends State<HomeView> {
               builder: (BuildContext context,
                   AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (!snapshot.hasData) return new Text('Loading...');
+                if (progressState) {
+                  return new Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[CircularProgressIndicator()],
+                  );
+                }
                 return new ListView(
                   controller: _scrollController,
                   children: snapshot.data.documents.map((document) {
