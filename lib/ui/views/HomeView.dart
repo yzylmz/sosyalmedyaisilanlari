@@ -15,28 +15,33 @@ class _HomeViewState extends State<HomeView> {
   Stream<QuerySnapshot> _jobStream = Firestore.instance
       .collection('job')
       .orderBy('createdDate', descending: true)
-      .limit(5)
+      .limit(scrollCount)
       .snapshots();
 
-  getDocumentCount() {
-    // Firestore.instance.collection('job').getDocuments().then((onValue) {
-    //   int _countDoc = onValue.documents.length;
-    //   _jobStream = Firestore.instance
-    //       .collection('job')
-    //       .orderBy('createdDate', descending: true)
-    //       .limit(_countDoc)
-    //       .snapshots();
-    // });
+  getDocumentCount() async {
+    Firestore.instance.collection('job').getDocuments().then((onValue) {
+      int _countDoc = onValue.documents.length;
+      if (_countDoc >= scrollCount) {
+        getCollectionData();
+      }
+    });
+  }
+
+  getCollectionData() {
+    setState(() {
+      _jobStream = Firestore.instance
+          .collection('job')
+          .orderBy('createdDate', descending: true)
+          .limit(scrollCount)
+          .snapshots();
+    });
   }
 
   void initState() {
     super.initState();
-
-    
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
-        progressState = true;
         _loadMore();
       }
     });
@@ -49,15 +54,9 @@ class _HomeViewState extends State<HomeView> {
   }
 
   _loadMore() {
-    // setState(() {
-    //   scrollCount += 1;
-    //   _jobStream = Firestore.instance
-    //       .collection('job')
-    //       .orderBy('createdDate', descending: true)
-    //       .limit(scrollCount)
-    //       .snapshots();
-    //   progressState = false;
-    // });
+    progressState = true;
+    scrollCount += 1;
+    getDocumentCount();
   }
 
   void gotoLoginPage() {
@@ -103,15 +102,15 @@ class _HomeViewState extends State<HomeView> {
               stream: _jobStream,
               builder: (BuildContext context,
                   AsyncSnapshot<QuerySnapshot> snapshot) {
-                if (!snapshot.hasData) return new Text('Loading...');
                 if (progressState) {
-                  return new Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[CircularProgressIndicator()],
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 2,
+                    child: Align(
+                        alignment: Alignment.topCenter,
+                        child: CircularProgressIndicator()),
                   );
                 }
+                if (!snapshot.hasData) return new Text('Loading...');
                 return new ListView(
                   controller: _scrollController,
                   children: snapshot.data.documents.map((document) {
