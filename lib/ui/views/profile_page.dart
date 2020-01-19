@@ -13,31 +13,33 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  static var _user;
 
   Stream<QuerySnapshot> _myJobsStream;
 
   final databaseReference = Firestore.instance;
 
-  static int scrollCount = 10;
+  static int scrollCount = 5;
 
   bool progressState = false;
 
   ScrollController _scrollController = ScrollController();
 
   getUserJobs() async {
-    var _user = await _firebaseAuth.currentUser();
-
     _myJobsStream = Firestore.instance
         .collection('job')
-        .where("senderuid", isEqualTo:_user.uid )
+        .where("senderuid", isEqualTo: _user.uid)
         .orderBy('createdDate', descending: true)
         .limit(scrollCount)
         .snapshots();
   }
 
   void initState() {
+    _firebaseAuth.currentUser().then((onValue) {
+      _user = onValue;
+      getCollectionData();
+    });
     super.initState();
-    getUserJobs();
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
@@ -48,15 +50,29 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   _loadMore() {
-    int countDoc = Firestore.instance.collection('job').toString().length;
+    progressState = true;
+    scrollCount += 1;
+    getDocumentCount();
+  }
 
-    if (scrollCount < countDoc) {
-      setState(() {
-        scrollCount += 10;
-        getUserJobs();
-      });
-      progressState = false;
-    }
+  getDocumentCount() async {
+    Firestore.instance.collection('job').getDocuments().then((onValue) {
+      int _countDoc = onValue.documents.length;
+      if (_countDoc >= scrollCount) {
+        getCollectionData();
+      }
+    });
+  }
+
+  getCollectionData() async {
+    setState(() {
+      _myJobsStream = Firestore.instance
+          .collection('job')
+          .where("senderuid", isEqualTo: _user.uid)
+          .orderBy('createdDate', descending: true)
+          .limit(scrollCount)
+          .snapshots();
+    });
   }
 
   @override
